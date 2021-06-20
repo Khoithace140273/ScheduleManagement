@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 
 
 class AddNote extends StatelessWidget {
-  const AddNote({Key? key}) : super(key: key);
+
+  TextEditingController title = TextEditingController();
+  TextEditingController content = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,7 @@ class AddNote extends StatelessWidget {
             Container(
               decoration: BoxDecoration(),
               child: TextField(
+                controller: title,
                 decoration: InputDecoration(hintText: 'Title'),
               ),
             ),
@@ -28,6 +33,7 @@ class AddNote extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(),
                   child: TextField(
+                    controller: content,
                     maxLines: null,
                     expands: true,
                     decoration: InputDecoration(hintText: 'Start typing'),

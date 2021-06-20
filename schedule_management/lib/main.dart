@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'bodyLogin.dart';
 import 'addNote.dart';
+import 'login.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: ''),
     );
   }
 }
@@ -57,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (_)=>AddNote()));
+          Navigator.push(context, MaterialPageRoute(builder: (_)=>Login()));
         },
       ),
       body: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
