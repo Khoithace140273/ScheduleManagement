@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'bodyLogin.dart';
 import 'addNote.dart';
-import 'login.dart';
+import 'LoginRegister/login.dart';
 
 void main() {
   runApp(MyApp());
