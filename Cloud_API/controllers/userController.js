@@ -1,45 +1,40 @@
 'use strict';
 
 const firebase = require('../db');
-const Student = require('../models/userAcc');
+const userAcc = require('../models/userAcc');
+const User = require('../models/userAcc');
 const firestore = firebase.firestore();
 
 
-const addStudent = async (req, res, next) => {
+const addUser = async (req, res, next) => {
     try {
         const data = req.body;
-        await firestore.collection('students').doc().set(data);
+        await firestore.collection('User').doc().set(data);
         res.send('Record saved successfuly');
     } catch (error) {
         res.status(400).send(error.message);
     }
 }
 
-const getAllStudents = async (req, res, next) => {
+const getAllUsers = async (req, res, next) => {
     try {
-        const students = await firestore.collection('students');
-        const data = await students.get();
-        const studentsArray = [];
+        const users = await firestore.collection('user');
+        const data = await users.get();
+        const usersArray = [];
         if(data.empty) {
-            res.status(404).send('No student record found');
+            res.status(404).send('No user record found');
         }else {
             data.forEach(doc => {
-                const student = new Student(
+                const user = new userAcc(
                     doc.id,
-                    doc.data().firstName,
-                    doc.data().lastName,
-                    doc.data().fatherName,
-                    doc.data().class,
-                    doc.data().age,
-                    doc.data().phoneNumber,
-                    doc.data().subject,
-                    doc.data().year,
-                    doc.data().semester,
-                    doc.data().status
+                    doc.data().userName,
+                    doc.data().passWord,
+                    doc.data().uidFacebook,
+                    doc.data().uidGoogle,
                 );
-                studentsArray.push(student);
+                usersArray.push(user);
             });
-            res.send(studentsArray);
+            res.send(usersArray);
         }
     } catch (error) {
         res.status(400).send(error.message);
@@ -49,10 +44,10 @@ const getAllStudents = async (req, res, next) => {
 const getStudent = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const student = await firestore.collection('students').doc(id);
+        const student = await firestore.collection('User').doc(id);
         const data = await student.get();
         if(!data.exists) {
-            res.status(404).send('Student with the given ID not found');
+            res.status(404).send('User with the given ID not found');
         }else {
             res.send(data.data());
         }
@@ -84,8 +79,8 @@ const deleteStudent = async (req, res, next) => {
 }
 
 module.exports = {
-    addStudent,
-    getAllStudents,
+    addUser,
+    getAllUsers,
     getStudent,
     updateStudent,
     deleteStudent
