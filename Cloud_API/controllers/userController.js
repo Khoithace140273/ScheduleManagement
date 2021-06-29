@@ -1,7 +1,6 @@
 'use strict';
 
 const firebase = require('../db');
-const userAcc = require('../models/userAcc');
 const User = require('../models/userAcc');
 const firestore = firebase.firestore();
 
@@ -9,7 +8,7 @@ const firestore = firebase.firestore();
 const addUser = async (req, res, next) => {
     try {
         const data = req.body;
-        await firestore.collection('User').doc().set(data);
+        await firestore.collection("User").doc().set(data);
         res.send('Record saved successfuly');
     } catch (error) {
         res.status(400).send(error.message);
@@ -17,20 +16,21 @@ const addUser = async (req, res, next) => {
 }
 
 const getAllUsers = async (req, res, next) => {
+    console.log("check here");
     try {
-        const users = await firestore.collection('user');
+        const users = await firestore.collection("User");
         const data = await users.get();
         const usersArray = [];
         if(data.empty) {
             res.status(404).send('No user record found');
         }else {
             data.forEach(doc => {
-                const user = new userAcc(
+                const user = new User(
                     doc.id,
-                    doc.data().userName,
-                    doc.data().passWord,
-                    doc.data().uidFacebook,
-                    doc.data().uidGoogle,
+                    doc.data().Username,
+                    doc.data().Password,
+                    doc.data().Uidfacebook,
+                    doc.data().Uidgoogle
                 );
                 usersArray.push(user);
             });
@@ -41,7 +41,7 @@ const getAllUsers = async (req, res, next) => {
     }
 }
 
-const getStudent = async (req, res, next) => {
+const getUserById = async (req, res, next) => {
     try {
         const id = req.params.id;
         const student = await firestore.collection('User').doc(id);
@@ -56,32 +56,21 @@ const getStudent = async (req, res, next) => {
     }
 }
 
-const updateStudent = async (req, res, next) => {
+const updateUser = async (req, res, next) => {
     try {
         const id = req.params.id;
         const data = req.body;
-        const student =  await firestore.collection('students').doc(id);
-        await student.update(data);
-        res.send('Student record updated successfuly');        
+        const user =  await firestore.collection('User').doc(id);
+        await user.update(data);
+        res.send('User record updated successfuly');        
     } catch (error) {
         res.status(400).send(error.message);
     }
 }
 
-const deleteStudent = async (req, res, next) => {
-    try {
-        const id = req.params.id;
-        await firestore.collection('students').doc(id).delete();
-        res.send('Record deleted successfuly');
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-}
 
 module.exports = {
     addUser,
     getAllUsers,
-    getStudent,
-    updateStudent,
-    deleteStudent
+    updateUser
 }
