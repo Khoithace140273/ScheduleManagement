@@ -19,7 +19,7 @@ app.get("/hello-world", (req, res) => {
 });
 
 // Routes
-app.use(require("./routes/products.routes"));
+app.use(require("./router/Notes.routes"));
 
 exports.app = functions.https.onRequest(app);
 
