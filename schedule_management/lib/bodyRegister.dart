@@ -1,11 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:untitled/HomePage/homePage.dart';
 import 'package:untitled/LoginRegister/password.dart';
-import 'package:untitled/LoginRegister/register.dart';
 
-class BodyL extends StatelessWidget {
+class BodyR extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,50 +11,36 @@ class BodyL extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Sign In",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
-              foreground: Paint()..color = Color.fromARGB(0xFF, 0x5B, 0x67, 0xCA),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Sign Up",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                foreground: Paint()..color = Color.fromARGB(0xFF, 0x5B, 0x67, 0xCA),
+              ),
             ),
           ),
-        ),
           SizedBox(height: 40,),
           TextField(
             decoration: InputDecoration(
-              border: UnderlineInputBorder(borderSide: BorderSide(width: 2)),
-              hintText: 'Username',
-              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)
+                border: UnderlineInputBorder(borderSide: BorderSide(width: 2)),
+                hintText: 'Username',
+                contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)
             ),
           ),
           SizedBox(height: 15,),
           Password(),
           SizedBox(height: 15,),
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 124),
-              backgroundColor: Colors.deepPurpleAccent,
-            ),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>HomePage()));
-            },
-            child: Text(
-              "Sign In",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+          PasswordConfirm(),
           SizedBox(height: 15,),
           TextButton(
             style: TextButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 121),
               backgroundColor: Colors.deepPurpleAccent,
             ),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>Register()));
-            },
+            onPressed: (){},
             child: Text(
               "Sign Up",
               style: TextStyle(color: Colors.white),
@@ -64,20 +48,20 @@ class BodyL extends StatelessWidget {
           ),
           SizedBox(height: 15,),
           Row(
-            children: <Widget>[
-              Expanded(
-                  child: Divider(thickness: 2,)
-              ),
-              SizedBox(width: 5,),
-              Text(
-                "Or with",
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-              SizedBox(width: 5,),
-              Expanded(
-                  child: Divider(thickness: 2,)
-              ),
-            ]
+              children: <Widget>[
+                Expanded(
+                    child: Divider(thickness: 2,)
+                ),
+                SizedBox(width: 5,),
+                Text(
+                  "Or with",
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+                SizedBox(width: 5,),
+                Expanded(
+                    child: Divider(thickness: 2,)
+                ),
+              ]
           ),
           SizedBox(height: 15,),
           Row(

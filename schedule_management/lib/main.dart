@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'bodyLogin.dart';
-import 'addNote.dart';
+import 'NoteAndTask/addNote.dart';
 import 'LoginRegister/login.dart';
+import '/LoginRegister/register.dart';
+import '/HomePage/homePage.dart';
 
 void main() {
   runApp(MyApp());
@@ -52,24 +54,40 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(""),
+      body: Container(
+        alignment: Alignment.center,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 124),
+                    backgroundColor: Colors.deepPurpleAccent,
+                  ),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=>Login()));
+                  },
+                  child: Text(
+                    "Sign In",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 121),
+                    backgroundColor: Colors.deepPurpleAccent,
+                  ),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=>Register()));
+                  },
+                  child: Text(
+                    "Sign Up",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+          ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (_)=>Login()));
-        },
-      ),
-      body: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          itemCount: 10,
-          itemBuilder: (_, index){
-            return Container(
-              margin: EdgeInsets.all(10),
-              height: 150,
-              color: Colors.grey[200],
-            );
-          }),
     );
   }
 }
