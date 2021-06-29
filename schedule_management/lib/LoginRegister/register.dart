@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/bodyLogin.dart';
+import 'package:untitled/bodyRegister.dart';
 
-class Login extends StatelessWidget {
+class Register extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BodyL(),
+      body: BodyR(),
     );
   }
 }
