@@ -1,17 +1,11 @@
 class userAcc {
-    constructor( ) {
+    constructor(id, userName, passWord, uidFacebook, uidGoogle) {
             this.id = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.fatherName = fatherName;
-            this.classEnrolled = classEnrolled;
-            this.age = age;
-            this.phoneNumber = phoneNumber;
-            this.subject = subject;
-            this.year = year;
-            this.semester = semester;
-            this.status = status;
+            this.userName = userName;
+            this.passWord = passWord;
+            this.uidFacebook = uidFacebook;
+            this.uidGoogle = uidGoogle;
     }
 }
 
-module.exports = Student;
+module.exports = userAcc;
