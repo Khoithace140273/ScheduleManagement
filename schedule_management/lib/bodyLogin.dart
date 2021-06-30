@@ -86,14 +86,14 @@ class BodyL extends StatelessWidget {
               IconButton(
                 padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                 onPressed: (){},
-                icon: Image.asset('asset/Button/fb1.png', height: 50, width: 50,),
+                icon: Image.asset('assets/Button/fb1.png', height: 50, width: 50,),
                 iconSize: 20,
               ),
               SizedBox(width: 10,),
               IconButton(
                 padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                 onPressed: (){},
-                icon: Image.asset('asset/Button/Google.png', height: 45, width: 45,),
+                icon: Image.asset('assets/Button/Google.png', height: 45, width: 45,),
                 iconSize: 20,
               ),
             ],
