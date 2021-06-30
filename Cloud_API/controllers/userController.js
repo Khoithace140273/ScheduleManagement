@@ -15,7 +15,7 @@ const getUserById =fcGetUserById();
 
 //function
 function fcGetUserById(){
-  const fcGetUserById  = async (req, res, next) => {
+ return async (req, res, next) => {
         try {
             const id = req.params.id;
             const student = await firestore.collection('User').doc(id);
@@ -29,28 +29,39 @@ function fcGetUserById(){
             res.status(400).send(error.message);
         }
     }
-    return fcGetUserById;
 }
 
 function fcAddUser(){
-
-  const fcAddUser  = async (req, res, next) => {
-       var b = usersArray.length;
-       console.log(b);
-       var a = parseInt(usersArray[usersArray.length - 1].id)+1;
+ return async (req, res, next) => {
        try {
-           const data = req.body;
-           await firestore.collection("User").doc(a.toString()).set(data);
+        const users = await firestore.collection("User");
+        const dataGetAllUser = await users.get();
+        if(dataGetAllUser.empty) {
+            res.status(404).send('No user record found');
+        }else {
+            dataGetAllUser.forEach(doc => {
+                const user = new User(
+                    doc.id,
+                    doc.data().Username,
+                    doc.data().Password,
+                    doc.data().Uidfacebook,
+                    doc.data().Uidgoogle
+                );
+                usersArray.push(user);
+            });
+        }
+        var a = parseInt(usersArray[usersArray.length - 1].id)+1;
+           const dataPostUser = req.body;
+           await firestore.collection("User").doc(a.toString()).set(dataPostUser);
            res.send('Record saved successfuly');
        } catch (error) {
            res.status(400).send(error.message);
        }
    }
-   return fcAddUser;
 }
 
 function fcGetAllUser (){
-    const fcArrAllUser =  async (req, res, next) => {
+ return async (req, res, next) => {
         try {
             const users = await firestore.collection("User");
             const data = await users.get();
@@ -67,18 +78,16 @@ function fcGetAllUser (){
                     );
                     usersArray.push(user);
                 });
-                res.send(usersArray);
             }
         } catch (error) {
             res.status(400).send(error.message);
         }
         console.log("check here");
     }
-    return fcArrAllUser;
 }
 
 function fcUpdateUser(){
- const fcupdate = async (req, res, next) => {
+ return async (req, res, next) => {
         try {
             const id = req.params.id;
             const data = req.body;
@@ -89,7 +98,6 @@ function fcUpdateUser(){
             res.status(400).send(error.message);
         }
     }
-    return fcupdate;
 }
 
 module.exports = {
