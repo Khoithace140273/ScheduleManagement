@@ -40,9 +40,11 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - asset/Button/fb.png
-    - asset/Button/fb1.png
-    - asset/Button/Google.png
+    - assets/Button/fb.png
+    - assets/Button/fb1.png
+    - assets/Button/Google.png
+    - assets/Img/Main.png
+    - assets/Img/Main2.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
