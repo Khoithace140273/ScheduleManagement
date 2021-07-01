@@ -3,7 +3,6 @@
 const firebase = require('../db');
 const User = require('../models/userAcc');
 const firestore = firebase.firestore();
-const usersArray=[];
 
 //call function
 const updateUser = fcUpdateUser();
@@ -51,6 +50,7 @@ function fcAddUser(){
             });
         }
         var a = parseInt(usersArray[usersArray.length - 1].id)+1;
+           const usersArray=[];
            const dataPostUser = req.body;
            await firestore.collection("User").doc(a.toString()).set(dataPostUser);
            res.send('Record saved successfuly');
@@ -65,6 +65,7 @@ function fcGetAllUser (){
         try {
             const users = await firestore.collection("User");
             const data = await users.get();
+            const usersArray=[];
             if(data.empty) {
                 res.status(404).send('No user record found');
             }else {
@@ -78,6 +79,7 @@ function fcGetAllUser (){
                     );
                     usersArray.push(user);
                 });
+                res.send(usersArray);
             }
         } catch (error) {
             res.status(400).send(error.message);
