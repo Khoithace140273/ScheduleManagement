@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(height: 20,),
               Image.asset('assets/Img/Main2.png', width: 310, height: 310,),
               SizedBox(height: 20,),
-              TextButton(
+              ElevatedButton(
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 124),
                   backgroundColor: Colors.deepPurpleAccent,
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               SizedBox(height: 30,),
-              TextButton(
+              ElevatedButton(
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 121),
                   backgroundColor: Colors.deepPurpleAccent,
