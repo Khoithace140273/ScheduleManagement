@@ -5,26 +5,24 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:untitled/HomePage/homePage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/LoginRegister/register.dart';
 import 'package:http/http.dart' as http ;
+import 'InputDeco_design.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:motion_toast/motion_toast.dart';
-import 'LoginRegister/InputDeco_design.dart';
 
-class BodyR extends StatefulWidget {
+class BodyL extends StatefulWidget {
   @override
-  _RegisterFormState createState() => _RegisterFormState();
+  _LoginFormState createState() => _LoginFormState();
 }
 
-class _RegisterFormState extends State<BodyR> {
-  final TextEditingController passwordConfirmController =
-  new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
-  final TextEditingController usernameController = new TextEditingController();
+class _LoginFormState extends State<BodyL> {
 
+  final TextEditingController usernameController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
   bool _isObscure = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String username = "", password = "";
-
   bool _isLoading = false;
 
   @override
@@ -39,10 +37,10 @@ class _RegisterFormState extends State<BodyR> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Padding(
+                  child:
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "Sign Up",
+                    child: Text("Sign In",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30,
@@ -64,10 +62,7 @@ class _RegisterFormState extends State<BodyR> {
                     validator: (val) {
                       if (val!.isEmpty) {
                         return 'Please enter your Username';
-                      }else if(val!.length<6){
-                        return 'Username contain at least 6 characters in length';
-                      }
-                      else
+                      } else
                         return null;
                     },
                     onSaved: (val) {
@@ -75,9 +70,10 @@ class _RegisterFormState extends State<BodyR> {
                     },
                   ),
                 ),
+                // password fiel
                 Padding(
-                  padding:
-                  const EdgeInsets.only(bottom: 15, left: 10, right: 10),
+                  padding: const EdgeInsets.only(
+                      bottom: 15, left: 10, right: 10),
                   child: TextFormField(
                     controller: passwordController,
                     obscureText: _isObscure,
@@ -115,18 +111,7 @@ class _RegisterFormState extends State<BodyR> {
                     validator: (val) {
                       if (val!.isEmpty) {
                         return 'Please enter your Password';
-                      } else if (!RegExp(r'^(?=.*?[A-Z])').hasMatch(val)) {
-                        return 'Password contain at least 1 Upper case';
-                      } else if (!RegExp(r'^(?=.*[a-z])').hasMatch(val)) {
-                        return 'Password contain at least 1 Lower case';
-                      } else if (!RegExp(r'^(?=.*?[0-9])').hasMatch(val)) {
-                        return 'Password contain at least 1 digit';
-                      } else if (!RegExp(r'^(?=.*?[!@#\$&*~])').hasMatch(val)) {
-                        return 'Password contain at least 1 Special character';
-                      } else if (!RegExp(r'^.{8,}').hasMatch(val)) {
-                        return 'Password contain at least 8 characters in length';
-                      } else
-                        return null;
+                      } else return null;
                     },
                     onSaved: (val) {
                       password = val!;
@@ -134,65 +119,31 @@ class _RegisterFormState extends State<BodyR> {
                   ),
                   //Text Button
                 ),
-                Padding(
-                  padding:
-                  const EdgeInsets.only(bottom: 15, left: 10, right: 10),
-                  child: TextFormField(
-                    controller: passwordConfirmController,
-                    obscureText: _isObscure,
-                    decoration: InputDecoration(
-                      hintText: 'Confirm Password',
-                      prefixIcon: Icon(Icons.lock),
-                      suffixIcon: IconButton(
-                          icon: Icon(_isObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                          onPressed: () {
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });
-                          }),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(color: Colors.green, width: 1.5),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(
-                          color: Colors.blue,
-                          width: 1.5,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(
-                          color: Colors.blue,
-                          width: 1.5,
-                        ),
-                      ),
-                    ),
-                    validator: (val) {
-                      if (val!.isEmpty) {
-                        return 'Please enter your Password';
-                      } else if (!RegExp(r'^(?=.*?[A-Z])').hasMatch(val)) {
-                        return 'Password contain at least 1 Upper case';
-                      } else if (!RegExp(r'^(?=.*[a-z])').hasMatch(val)) {
-                        return 'Password contain at least 1 Lower case';
-                      } else if (!RegExp(r'^(?=.*?[0-9])').hasMatch(val)) {
-                        return 'Password contain at least 1 digit';
-                      } else if (!RegExp(r'^(?=.*?[!@#\$&*~])').hasMatch(val)) {
-                        return 'Password contain at least 1 Special character';
-                      } else if (!RegExp(r'^.{8,}').hasMatch(val)) {
-                        return 'Password contain at least 8 characters in length';
-                      } else if (passwordController.text !=
-                          passwordConfirmController.text) {
-                        return "Password does not match";
-                      } else
-                        return null;
-                    },
+                //Sign In
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      signIn(usernameController.text, passwordController.text);
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    padding:
+                    EdgeInsets.symmetric(vertical: 20, horizontal: 124),
+                    backgroundColor: Colors.deepPurpleAccent,
+                  ),
+                  child: Text(
+                    "Sign In",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-                //Text Button
+                SizedBox(
+                  height: 15,
+                ),
+                //Sign Up
                 ElevatedButton(
                   style: TextButton.styleFrom(
                     padding:
@@ -200,13 +151,8 @@ class _RegisterFormState extends State<BodyR> {
                     backgroundColor: Colors.deepPurpleAccent,
                   ),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
-                      setState(() {
-                        _isLoading = true;
-                      });
-                      signUp(usernameController.text, passwordController.text);
-                    }
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => Register()));
                   },
                   child: Text(
                     "Sign Up",
@@ -241,6 +187,7 @@ class _RegisterFormState extends State<BodyR> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  //Login Google and Facebook
                   children: [
                     IconButton(
                       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -274,18 +221,15 @@ class _RegisterFormState extends State<BodyR> {
       ),
     );
   }
-  signUp(String username, pass) async {
+  signIn(String username, pass) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if(username.isNotEmpty && pass.isNotEmpty){
       Map data = {
         "Username": username,
-        "Password": pass,
-        "Uidfacebook" : "",
-        "Uidgoogle": ""
+        "Password": pass
       };
       var jsonResponse = null;
-      var response = await http.post(Uri.parse("http://113.187.112.168:8080/api/user"), body: data);
-
+      var response = await http.post(Uri.parse("http://113.187.112.168:8080/api/loginuser"), body: data);
       if(response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
         if(jsonResponse == true) {
@@ -294,7 +238,6 @@ class _RegisterFormState extends State<BodyR> {
           });
           usernameController.clear();
           passwordController.clear();
-          passwordConfirmController.clear();
           _displaySuccessToast(context);
           Timer(Duration(seconds: 3), () {
             // 5 seconds over, navigate to Page2.
@@ -304,7 +247,7 @@ class _RegisterFormState extends State<BodyR> {
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
 */
         }
-        else {
+        else{
           _displayErrorToast(context);
         }
       }
@@ -320,7 +263,7 @@ class _RegisterFormState extends State<BodyR> {
     MotionToast.success(
         title: "Success",
         titleStyle: TextStyle(fontWeight: FontWeight.bold),
-        description: "Sign Up Successful",
+        description: "Login Successful",
         animationType:  ANIMATION.FROM_RIGHT,
         width:  500,
         toastDuration: const Duration (seconds : 2)
@@ -330,7 +273,7 @@ class _RegisterFormState extends State<BodyR> {
     MotionToast.error(
         title: "Error",
         titleStyle: TextStyle(fontWeight: FontWeight.bold),
-        description: "Username already exists",
+        description: "Username or Password is not correct",
         width:  500,
         animationType:  ANIMATION.FROM_RIGHT,
         toastDuration: const Duration (seconds : 2)

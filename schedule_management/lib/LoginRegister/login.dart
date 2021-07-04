@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/bodyLogin.dart';
+import 'package:untitled/LoginRegister/components/bodyLogin.dart';
 
 class Login extends StatelessWidget {
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/bodyRegister.dart';
+import 'package:untitled/LoginRegister/components/bodyRegister.dart';
 
 class Register extends StatelessWidget {
 

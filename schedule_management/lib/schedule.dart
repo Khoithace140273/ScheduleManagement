@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'bodyLogin.dart';
+import 'LoginRegister/components/bodyLogin.dart';
 import 'addNote.dart';
 import 'login.dart';
 import 'Models/TaskPages.dart';
