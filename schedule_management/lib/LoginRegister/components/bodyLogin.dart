@@ -214,6 +214,18 @@ class _LoginFormState extends State<BodyL> {
                     ),
                   ],
                 ),
+                IconButton(
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+                  },
+                  icon: Image.asset(
+                    '',
+                    height: 45,
+                    width: 45,
+                  ),
+                  iconSize: 20,
+                ),
               ],
             ),
           ),

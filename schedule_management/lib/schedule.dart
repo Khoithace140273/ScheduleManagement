@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'LoginRegister/components/bodyLogin.dart';
-import 'addNote.dart';
-import 'login.dart';
-import 'Models/TaskPages.dart';
-Widget tasksHeader() {
+import 'Models/NotePages.dart';
+Widget notesHeader() {
   return Padding(
     padding: const EdgeInsets.only(
       top: 10,
@@ -15,7 +12,7 @@ Widget tasksHeader() {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "My Tasks",
+          "My notes",
           style: TextStyle(
             color: Colors.blueAccent,
             fontSize: 25.00,
@@ -31,25 +28,25 @@ Widget tasksHeader() {
   );
 }
 
-class TaskPages extends StatefulWidget {
-  TaskPages({required Key key}) : super(key: key);
+class NotePages extends StatefulWidget {
+  NotePages({required Key key}) : super(key: key);
 
   @override
-  _TaskPageState createState() => _TaskPageState();
+  _NotePageState createState() => _NotePageState();
 }
-class _TaskPageState extends State<TaskPages> {
+class _NotePageState extends State<NotePages> {
   var _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
-    tasksDescriptionMaxLenth =
-        tasksDescriptionMaxLines * tasksDescriptionMaxLines;
+    notesDescriptionMaxLenth =
+        notesDescriptionMaxLines * notesDescriptionMaxLines;
   }
 
   @override
   void dispose() {
-    taskDescriptionController.dispose();
-    taskHeadingController.dispose();
+    noteDescriptionController.dispose();
+    noteHeadingController.dispose();
     super.dispose();
   }
 
@@ -60,11 +57,11 @@ class _TaskPageState extends State<TaskPages> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: tasksHeader(),
+        title: notesHeader(),
       ),
-      body: taskHeading.length > 0
-          ? buildTasks()
-          : Center(child: Text("Add Tasks...")),
+      body: noteHeading.length > 0
+          ? buildNotes()
+          : Center(child: Text("Add notes...")),
       floatingActionButton: FloatingActionButton(
         mini: false,
         backgroundColor: Colors.blueAccent,
@@ -76,7 +73,7 @@ class _TaskPageState extends State<TaskPages> {
     );
   }
 
-  Widget buildTasks() {
+  Widget buildNotes() {
     return Padding(
       padding: const EdgeInsets.only(
         top: 10,
@@ -84,7 +81,7 @@ class _TaskPageState extends State<TaskPages> {
         right: 10,
       ),
       child: new ListView.builder(
-        itemCount: taskHeading.length,
+        itemCount: noteHeading.length,
         itemBuilder: (context, int index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 5.5),
@@ -93,32 +90,32 @@ class _TaskPageState extends State<TaskPages> {
               direction: DismissDirection.horizontal,
               onDismissed: (direction) {
                 setState(() {
-                  deletedTaskHeading = taskHeading[index];
-                  deletedTaskDescription = taskDescription[index];
-                  taskHeading.removeAt(index);
-                  taskDescription.removeAt(index);
-                  Scaffold.of(context).showSnackBar(
+                  deletednoteHeading = noteHeading[index];
+                  deletednoteDescription = noteDescription[index];
+                  noteHeading.removeAt(index);
+                  noteDescription.removeAt(index);
+                  ScaffoldMessenger.of(context).showSnackBar(
                     new SnackBar(
                       backgroundColor: Colors.purple,
                       content: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           new Text(
-                            "Task Deleted",
+                            "note Deleted",
                             style: TextStyle(),
                           ),
-                          deletedTaskHeading != ""
+                          deletednoteHeading != ""
                               ? GestureDetector(
                             onTap: () {
                               print("undo");
                               setState(() {
-                                if (deletedTaskHeading != "") {
-                                  taskHeading.add(deletedTaskHeading);
-                                  taskDescription
-                                      .add(deletedTaskDescription);
+                                if (deletednoteHeading != "") {
+                                  noteHeading.add(deletednoteHeading);
+                                  noteDescription
+                                      .add(deletednoteDescription);
                                 }
-                                deletedTaskHeading = "";
-                                deletedTaskDescription = "";
+                                deletednoteHeading = "";
+                                deletednoteDescription = "";
                               });
                             },
                             child: new Text(
@@ -183,7 +180,7 @@ class _TaskPageState extends State<TaskPages> {
                   ),
                 ),
               ),
-              child: taskList(index),
+              child: noteList(index),
             ),
           );
         },
@@ -191,13 +188,13 @@ class _TaskPageState extends State<TaskPages> {
     );
   }
 
-  Widget taskList(int index) {
+  Widget noteList(int index) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5.5),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          // color: taskColor[(index % taskColor.length).floor()],
+          // color: noteColor[(index % noteColor.length).floor()],
           borderRadius: BorderRadius.circular(5.5),
         ),
         height: 100,
@@ -206,7 +203,7 @@ class _TaskPageState extends State<TaskPages> {
             children: [
               new Container(
                 // color:
-                // taskMarginColor[(index % taskMarginColor.length).floor()],
+                // noteMarginColor[(index % noteMarginColor.length).floor()],
                 width: 3.5,
                 height: double.infinity,
               ),
@@ -219,7 +216,7 @@ class _TaskPageState extends State<TaskPages> {
                     children: [
                       Flexible(
                         child: Text(
-                          taskHeading[index],
+                          noteHeading[index],
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 20.00,
@@ -235,7 +232,7 @@ class _TaskPageState extends State<TaskPages> {
                         child: Container(
                           height: double.infinity,
                           child: AutoSizeText(
-                            "${(taskDescription[index])}",
+                            "${(noteDescription[index])}",
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -287,7 +284,7 @@ class _TaskPageState extends State<TaskPages> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "New Note",
+                            "New note",
                             style: TextStyle(
                               fontSize: 20.00,
                               fontWeight: FontWeight.w500,
@@ -295,18 +292,16 @@ class _TaskPageState extends State<TaskPages> {
                           ),
                           GestureDetector(
                             onTap: () {
-
                                 setState(() {
-                                  taskHeading.add(taskHeadingController.text);
-                                  taskDescription
-                                      .add(taskDescriptionController.text);
-                                  taskHeadingController.clear();
-                                  taskDescriptionController.clear();
+                                  noteHeading.add(noteHeadingController.text);
+                                  noteDescription
+                                      .add(noteDescriptionController.text);
+                                  noteHeadingController.clear();
+                                  noteDescriptionController.clear();
                                 });
                                 Navigator.pop(context);
 
-
-                              print(taskHeadingController.text);
+                              print(noteHeadingController.text);
                             },
                             child: Container(
                               child: Row(
@@ -330,10 +325,10 @@ class _TaskPageState extends State<TaskPages> {
                         thickness: 2.5,
                       ),
                       TextFormField(
-                        maxLength: tasksHeaderMaxLenth,
-                        controller: taskHeadingController,
+                        maxLength: notesHeaderMaxLenth,
+                        controller: noteHeadingController,
                         decoration: InputDecoration(
-                          hintText: "Task Heading",
+                          hintText: "note Heading",
                           hintStyle: TextStyle(
                             fontSize: 15.00,
                             color: Colors.grey,
@@ -354,9 +349,9 @@ class _TaskPageState extends State<TaskPages> {
                           height: 5 * 24.0,
                           child: TextFormField(
                             focusNode: textSecondFocusNode,
-                            maxLines: tasksDescriptionMaxLines,
-                            maxLength: tasksDescriptionMaxLenth,
-                            controller: taskDescriptionController,
+                            maxLines: notesDescriptionMaxLines,
+                            maxLength: notesDescriptionMaxLenth,
+                            controller: noteDescriptionController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: 'Description',
