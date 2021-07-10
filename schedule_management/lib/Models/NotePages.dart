@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-final List<String> taskDescription = [];
-final List<String> taskHeading = [];
-TextEditingController taskHeadingController = new TextEditingController();
-TextEditingController taskDescriptionController = new TextEditingController();
+final List<String> noteDescription = [];
+final List<String> noteHeading = [];
+TextEditingController noteHeadingController = new TextEditingController();
+TextEditingController noteDescriptionController = new TextEditingController();
 FocusNode textSecondFocusNode = new FocusNode();
 
-int tasksHeaderMaxLenth = 25;
-int tasksDescriptionMaxLines = 10;
-int tasksDescriptionMaxLenth = 100;
-String deletedTaskHeading = "";
-String deletedTaskDescription = "";
+int notesHeaderMaxLenth = 25;
+int notesDescriptionMaxLines = 10;
+int notesDescriptionMaxLenth = 100;
+String deletednoteHeading = "";
+String deletednoteDescription = "";
 
 
-// List<Color> taskColor = [
+// List<Color> noteColor = [
 //   Colors.pink[50],
 //   Colors.green[50],
 //   Colors.blue[50],
@@ -26,7 +26,7 @@ String deletedTaskDescription = "";
 //   Colors.purple[50],
 // ];
 //
-// List<Color> taskMarginColor = [
+// List<Color> noteMarginColor = [
 //   Colors.pink[300],
 //   Colors.green[300],
 //   Colors.blue[300],

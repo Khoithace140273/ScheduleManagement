@@ -8,13 +8,19 @@ class AddNote extends StatelessWidget {
   TextEditingController content = TextEditingController();
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          TextButton(onPressed: (){}, child: Text('Save'))
+          TextButton(onPressed: (){}, child: Text('Save')),
+          PopupMenuButton<int>(
+            itemBuilder: (context) =>[
+              PopupMenuItem(
+                child: Text('Delete'),
+              ),
+            ],
+          ),
         ],
       ),
       body: Container(
@@ -28,7 +34,6 @@ class AddNote extends StatelessWidget {
                 decoration: InputDecoration(hintText: 'Title'),
               ),
             ),
-
             Expanded(
                 child: Container(
                   decoration: BoxDecoration(),
