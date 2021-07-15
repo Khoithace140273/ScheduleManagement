@@ -10,6 +10,33 @@ const checkUser = fcCheckUser();
 const addUser = fcAddUser();
 const getUserById = fcGetUserById();
 
+const getAllUser = fcGetAllUser();
+function fcGetAllUser() {
+  return async (req, res, next) => {
+    try {
+      const users = await firestore.collection("User");
+      const dataGetAllUser = await users.get();
+      const usersArray = [];
+      if (dataGetAllUser.empty) {
+        res.status(404).send("No user record found");
+      } else {
+        dataGetAllUser.forEach((doc) => {
+          const user = new User(
+            doc.id,
+            doc.data().Username,
+            doc.data().Password,
+            doc.data().Uidfacebook,
+            doc.data().Uidgoogle
+          );
+          usersArray.push(user);
+        });
+      }
+      res.send(usersArray);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  };
+}
 //function
 function fcGetUserById() {
   return async (req, res, next) => {
@@ -71,6 +98,7 @@ function fcCheckUser() {
       const users = await firestore.collection("User");
       const data = await users.get();
       const usersArray = [];
+      console.log("aaaa");
       if (data.empty) {
         res.status(404).send("No user record found");
       } else {
@@ -119,4 +147,5 @@ module.exports = {
   addUser,
   checkUser,
   updateUser,
+  getAllUser
 };
