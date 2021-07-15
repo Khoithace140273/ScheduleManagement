@@ -3,21 +3,26 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:untitled/HomePage/homePage.dart';
-import 'package:untitled/LoginRegister/register.dart';
-import 'package:http/http.dart' as http ;
-import 'InputDeco_design.dart';
+import 'package:untitled/Login/components/background.dart';
+import 'package:untitled/Register/register.dart';
+import 'package:http/http.dart' as http;
+import 'package:untitled/components/already_have_an_account_acheck.dart';
+import 'package:untitled/components/or_divider.dart';
+import 'package:untitled/components/rounded_button.dart';
+import 'package:untitled/constants.dart';
+import '../../components/input_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:motion_toast/motion_toast.dart';
 
-class BodyL extends StatefulWidget {
+class bodyLogin extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<BodyL> {
-
+class _LoginFormState extends State<bodyLogin> {
   final TextEditingController usernameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   bool _isObscure = true;
@@ -27,35 +32,30 @@ class _LoginFormState extends State<BodyL> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
+    Size size = MediaQuery.of(context).size;
+    return Background(
+      child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child:
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text("Sign In",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        foreground: Paint()
-                          ..color = Color.fromARGB(0xFF, 0x5B, 0x67, 0xCA),
-                      ),
-                    ),
-                  ),
+                Text(
+                  "SIGN IN",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    foreground: Paint()
+                      ..color = Color.fromARGB(0xFF, 0x5B, 0x67, 0xCA),),
                 ),
-                SizedBox(
-                  height: 40,
+                SvgPicture.asset(
+                  "assets/icons/login.svg",
+                  height: size.height * 0.3,
                 ),
+                SizedBox(height: size.height * 0.03),
                 Padding(
                   padding:
-                  const EdgeInsets.only(bottom: 15, left: 10, right: 10),
+                      const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                   child: TextFormField(
                     controller: usernameController,
                     decoration: buildInputDecoration(Icons.person, 'Username'),
@@ -72,8 +72,8 @@ class _LoginFormState extends State<BodyL> {
                 ),
                 // password fiel
                 Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 15, left: 10, right: 10),
+                  padding:
+                      const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                   child: TextFormField(
                     controller: passwordController,
                     obscureText: _isObscure,
@@ -111,7 +111,8 @@ class _LoginFormState extends State<BodyL> {
                     validator: (val) {
                       if (val!.isEmpty) {
                         return 'Please enter your Password';
-                      } else return null;
+                      } else
+                        return null;
                     },
                     onSaved: (val) {
                       password = val!;
@@ -120,8 +121,9 @@ class _LoginFormState extends State<BodyL> {
                   //Text Button
                 ),
                 //Sign In
-                ElevatedButton(
-                  onPressed: () {
+                RoundedButton(
+                  text: "Sign In",
+                  press: () {
                     if (_formKey.currentState!.validate()) {
                       // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
                       setState(() {
@@ -130,94 +132,70 @@ class _LoginFormState extends State<BodyL> {
                       signIn(usernameController.text, passwordController.text);
                     }
                   },
-                  style: TextButton.styleFrom(
-                    padding:
-                    EdgeInsets.symmetric(vertical: 20, horizontal: 124),
-                    backgroundColor: Colors.deepPurpleAccent,
-                  ),
-                  child: Text(
-                    "Sign In",
-                    style: TextStyle(color: Colors.white),
-                  ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                //Sign Up
-                ElevatedButton(
-                  style: TextButton.styleFrom(
-                    padding:
-                    EdgeInsets.symmetric(vertical: 20, horizontal: 121),
-                    backgroundColor: Colors.deepPurpleAccent,
-                  ),
-                  onPressed: () {
+                AlreadyHaveAnAccountCheck(
+                  login: true,
+                  press: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => Register()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return RegisterScreen ();
+                        },
+                      ),
+                    );
                   },
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(color: Colors.white),
-                  ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(children: <Widget>[
-                  Expanded(
-                      child: Divider(
-                        thickness: 2,
-                      )),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    "Or with",
-                    style: TextStyle(color: Colors.grey[600]),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                      child: Divider(
-                        thickness: 2,
-                      )),
-                ]),
-                SizedBox(
-                  height: 15,
-                ),
+                OrDivider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   //Login Google and Facebook
                   children: [
-                    IconButton(
-                      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                      onPressed: () {},
-                      icon: Image.asset(
-                        'assets/Button/fb1.png',
-                        height: 50,
-                        width: 50,
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: kPrimaryLightColor,
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                        child: SvgPicture.asset(
+                          "assets/icons/facebook.svg",
+                          height: 20,
+                          width: 20,
+                        ),
                       ),
-                      iconSize: 20,
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    IconButton(
-                      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                      onPressed: () {},
-                      icon: Image.asset(
-                        'assets/Button/Google.png',
-                        height: 45,
-                        width: 45,
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: kPrimaryLightColor,
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                        child: SvgPicture.asset(
+                          "assets/icons/google-plus.svg",
+                          height: 20,
+                          width: 20,
+                        ),
                       ),
-                      iconSize: 20,
                     ),
                   ],
                 ),
                 IconButton(
                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => HomePage()));
                   },
                   icon: Image.asset(
                     '',
@@ -230,21 +208,20 @@ class _LoginFormState extends State<BodyL> {
             ),
           ),
         ),
-      ),
     );
   }
+
   signIn(String username, pass) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if(username.isNotEmpty && pass.isNotEmpty){
-      Map data = {
-        "Username": username,
-        "Password": pass
-      };
+    if (username.isNotEmpty && pass.isNotEmpty) {
+      Map data = {"Username": username, "Password": pass};
       var jsonResponse = null;
-      var response = await http.post(Uri.parse("http://113.187.112.168:8080/api/loginuser"), body: data);
-      if(response.statusCode == 200) {
+      var response = await http.post(
+          Uri.parse("http://113.165.93.138:8080/api/loginuser"),
+          body: data);
+      if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
-        if(jsonResponse == true) {
+        if (jsonResponse == true) {
           setState(() {
             _isLoading = false;
           });
@@ -253,17 +230,16 @@ class _LoginFormState extends State<BodyL> {
           _displaySuccessToast(context);
           Timer(Duration(seconds: 3), () {
             // 5 seconds over, navigate to Page2.
-            Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => HomePage()));
           });
 /*
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
 */
-        }
-        else{
+        } else {
           _displayErrorToast(context);
         }
-      }
-      else {
+      } else {
         setState(() {
           _isLoading = false;
         });
@@ -271,24 +247,26 @@ class _LoginFormState extends State<BodyL> {
       }
     }
   }
-  void _displaySuccessToast(context){
+
+  void _displaySuccessToast(context) {
     MotionToast.success(
-        title: "Success",
-        titleStyle: TextStyle(fontWeight: FontWeight.bold),
-        description: "Login Successful",
-        animationType:  ANIMATION.FROM_RIGHT,
-        width:  500,
-        toastDuration: const Duration (seconds : 2)
-    ).show(context);
+            title: "Success",
+            titleStyle: TextStyle(fontWeight: FontWeight.bold),
+            description: "Login Successful",
+            animationType: ANIMATION.FROM_RIGHT,
+            width: 500,
+            toastDuration: const Duration(seconds: 2))
+        .show(context);
   }
-  void _displayErrorToast(context){
+
+  void _displayErrorToast(context) {
     MotionToast.error(
-        title: "Error",
-        titleStyle: TextStyle(fontWeight: FontWeight.bold),
-        description: "Username or Password is not correct",
-        width:  500,
-        animationType:  ANIMATION.FROM_RIGHT,
-        toastDuration: const Duration (seconds : 2)
-    ).show(context);
+            title: "Error",
+            titleStyle: TextStyle(fontWeight: FontWeight.bold),
+            description: "Username or Password is not correct",
+            width: 500,
+            animationType: ANIMATION.FROM_RIGHT,
+            toastDuration: const Duration(seconds: 2))
+        .show(context);
   }
 }

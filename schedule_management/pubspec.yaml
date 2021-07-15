@@ -34,7 +34,7 @@ dependencies:
 
   cupertino_icons: any
   motion_toast: any
-
+  flutter_svg: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -45,11 +45,8 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - assets/Button/fb.png
-    - assets/Button/fb1.png
-    - assets/Button/Google.png
-    - assets/Img/Main.png
-    - assets/Img/Main2.png
+    - assets/images/
+    - assets/icons/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
