@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/HomePage/taskView.dart';
 import 'package:untitled/NoteAndTask/addNote.dart';
 import 'package:untitled/HomePage/noteView.dart';
 import '/Drawer/navMenu.dart';
-import 'package:untitled/schedule.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -13,8 +13,19 @@ class HomePage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const TabBar(
-            indicatorColor: Colors.transparent,
+          backgroundColor: Color(0xFF5471F1),
+          elevation: 0,
+          bottom: const TabBar(
+            labelColor: Color(0xFF5471F1),
+            unselectedLabelColor: Colors.white,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
+              color: Colors.white,
+            ),
             tabs: <Widget>[
               Tab(
                 child: Text('Notes', style: TextStyle(fontSize: 20),),
@@ -28,23 +39,19 @@ class HomePage extends StatelessWidget {
             PopupMenuButton<int>(
               itemBuilder: (context) =>[
                 PopupMenuItem(
-                    child: Text('Setting'),
+                    child: Align(
+                        alignment: Alignment.center,
+                        child: Text('Setting')),
                 ),
               ],
             ),
           ],
         ),
         drawer: NavMenu(),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (_)=>AddNote()));
-          },
-        ),
         body: TabBarView(
             children: <Widget>[
               Center(child: NoteView()),
-              Center(),
+              Center(child: TaskView()),
             ],
         ),
       ),

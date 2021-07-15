@@ -12,6 +12,10 @@ class AddNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         actions: [
           TextButton(onPressed: (){}, child: Text('Save')),
           PopupMenuButton<int>(
