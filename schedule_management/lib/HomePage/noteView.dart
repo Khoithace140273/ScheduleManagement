@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled/Models/NotePages.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-
+import 'package:untitled/Models/Note.dart';
+import 'package:untitled/Models/SlidableNote.dart';
+import 'package:untitled/NoteAndTask/addNote.dart';
+import 'package:untitled/Data/ListNote.dart';
 class NoteView extends StatefulWidget {
   const NoteView({Key? key}) : super(key: key);
 
@@ -10,190 +12,98 @@ class NoteView extends StatefulWidget {
 }
 
 class _NoteViewState extends State<NoteView> {
-
+  String noteContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+      "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
+      "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
+      "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+  List <Note> items = List.of(NoteList.Notes);
   @override
   Widget build(BuildContext context) {
-    return noteHeading.length > 0
-    ? buildNotes()
-    : Text('No Notes');
+    return buildNotes();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   Widget buildNotes() {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 10,
-        left: 10,
-        right: 10,
-      ),
-      child: new ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, int index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 5.5),
-            child: new Dismissible(
-              key: UniqueKey(),
-              direction: DismissDirection.startToEnd,
-              onDismissed: (direction) {
-                setState(() {
-                  deletednoteHeading = noteHeading[index];
-                  deletednoteDescription = noteDescription[index];
-                  noteHeading.removeAt(index);
-                  noteDescription.removeAt(index);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    new SnackBar(
-                      backgroundColor: Colors.purple,
-                      content: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          new Text(
-                            "Note Deleted",
-                            style: TextStyle(),
-                          ),
-                          deletednoteHeading != ""
-                              ? GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (deletednoteHeading != "") {
-                                  noteHeading.add(deletednoteHeading);
-                                  noteDescription
-                                      .add(deletednoteDescription);
-                                }
-                                deletednoteHeading = "";
-                                deletednoteDescription = "";
-                              });
-                            },
-                            child: new Text(
-                              "Undo",
-                              style: TextStyle(),
-                            ),
-                          )
-                              : SizedBox(),
-                        ],
-                      ),
-                    ),
-                  );
-                });
-              },
-              background: ClipRRect(
-                borderRadius: BorderRadius.circular(5.5),
-                child: Container(
-                  color: Colors.green,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            "Delete",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+    return Container(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => AddNote()));
+          },
+        ),
+        body: Stack(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.topCenter,
+              child: Expanded(
+                child: ListView.separated(
+                  itemCount: items.length,
+                  separatorBuilder: (context, index) => Divider(),
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return SlidableWidgetNote(child: buildListViewNote(item));
+                  }
+                )
               ),
-              secondaryBackground: ClipRRect(
-                borderRadius: BorderRadius.circular(5.5),
-                child: Container(
-                  color: Colors.red,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            "Delete",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              child: noteList(index),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
 
-  Widget noteList(int index) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(5.5),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          // color: NoteColor[(index % NoteColor.length).floor()],
-          borderRadius: BorderRadius.circular(5.5),
-        ),
-        height: 100,
-        child: Center(
-          child: Row(
-            children: [
-              new Container(
-                // color:
-                // NoteMarginColor[(index % NoteMarginColor.length).floor()],
-                width: 3.5,
-                height: double.infinity,
-              ),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          noteHeading[index],
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 20.00,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 2.5,
-                      ),
-                      Flexible(
-                        child: Container(
-                          height: double.infinity,
-                          child: AutoSizeText(
-                            "${(noteDescription[index])}",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 15.00,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+  Widget buildListViewNote(Note item) => ListTile(
+    title: Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      height: 100,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            offset: Offset(0,9),
+            blurRadius: 20,
+            spreadRadius: 1,
           ),
-        ),
+        ],
       ),
-    );
-  }
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(height: 3,),
+          Text(
+            item.title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 2,),
+          Text(
+            item.content,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 15,
+              color: Color(0xff7c7c7c),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
