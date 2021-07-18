@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:untitled/Login/login.dart';
-import 'package:untitled/Register/register.dart';
-import 'package:untitled/Welcome/components/background.dart';
-import 'package:untitled/components/rounded_button.dart';
+
 import 'package:untitled/constants.dart';
+import 'package:untitled/page/Login/login.dart';
+import 'package:untitled/page/Register/register.dart';
+import 'package:untitled/page/Welcome/components/background.dart';
+import 'package:untitled/page/components/rounded_button.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -48,7 +49,7 @@ class Body extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return LoginScreen();
+                      return RegisterScreen();
                     },
                   ),
                 );

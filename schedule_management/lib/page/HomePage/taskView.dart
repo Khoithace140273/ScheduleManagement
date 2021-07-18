@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:untitled/Data/ListTask.dart';
-import 'package:untitled/Models/SlidableTask.dart';
-import 'package:untitled/Models/Task.dart';
+import 'package:untitled/page/Data/ListTask.dart';
+import 'package:untitled/page/Models/SlidableTask.dart';
+import 'package:untitled/page/Models/Task.dart';
+
 
 class TaskView extends StatefulWidget {
   const TaskView({Key? key}) : super(key: key);
