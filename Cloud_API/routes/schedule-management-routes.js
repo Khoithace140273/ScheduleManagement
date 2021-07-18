@@ -6,7 +6,9 @@ const { addUser,
 
 const {
     getAllTask,
-    addNewTask
+    addNewTask,
+    updateTask,
+    removeTask
 } = require('../controllers/taskController');
 
 
@@ -17,6 +19,8 @@ router.post('/loginuser', checkUser);
 router.put('/user/:id', updateUser);
 router.get('/task', getAllTask);
 router.post('/task/addtask', addNewTask);
+router.post('/task/updatetask', updateTask);
+router.delete('/task/deletetask', removeTask);
 
 module.exports = {
     routes: router

@@ -16,7 +16,9 @@ class SlidableWidgetNote<T> extends StatelessWidget {
           caption: "Edit",
           color:  Colors.white,
           icon: Icons.edit,
-          onTap: (){},
+          onTap: (){
+            
+          },
         ),
         IconSlideAction(
           caption: "Delete",

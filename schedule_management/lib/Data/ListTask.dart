@@ -6,6 +6,7 @@ class ListTask {
   Future<List<Task>> fetchTask() async {
     final response = await http.get(Uri.parse("http://10.0.2.2:8080/api/task"));
     if (response.statusCode == 200) {
+      print(response.body);
       return parseTasks(response.body);
     } else {
       throw Exception('Failed to load Task');
@@ -36,15 +37,51 @@ class ListTask {
           'lastEditedTime': lastEditedTime
         },
       );
+      if (!(response.statusCode == 200)) {
+        throw Exception('Failed to Add Task');
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
-      print(response.statusCode);
+  Future<dynamic> updateTask(Task task) async {
+    try {
+      print("asdasd");
+      final response = await http.post(
+        Uri.parse("http://10.0.2.2:8080/api/task/updatetask"),
+        body: {
+          'id': task.id,
+          'done': task.done.toString(),
+          'titleTask': task.titleTask,
+          'reminderTime': task.reminderTime,
+          'lastEditedTime': task.lastEditedTime
+        },
+      );
+      if (!(response.statusCode == 200)) {
+        throw Exception('Failed to Update Task');
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
-      // return Dio().post('http://192.168.5.192:8080/api/task/addtask',
-      //     data:
-      //     options: Options(headers: {
-      //       'Content-Type': "application/json",
-      //       // 'Accept': 'application/json',
-      //     }));
+  Future<dynamic> deleteTask(Task task) async {
+    try {
+      print("asdasd");
+      final response = await http.delete(
+        Uri.parse("http://10.0.2.2:8080/api/task/deletetask"),
+        body: {
+          'id': task.id,
+          'done': task.done.toString(),
+          'titleTask': task.titleTask,
+          'reminderTime': task.reminderTime,
+          'lastEditedTime': task.lastEditedTime
+        },
+      );
+      if (!(response.statusCode == 200)) {
+        throw Exception('Failed to Delete Task');
+      }
     } catch (e) {
       throw Exception(e);
     }

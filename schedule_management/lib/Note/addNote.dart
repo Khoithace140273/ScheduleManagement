@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class AddNote extends StatelessWidget {
-
   TextEditingController title = TextEditingController();
   TextEditingController content = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +14,9 @@ class AddNote extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
-          TextButton(onPressed: (){}, child: Text('Save')),
+          TextButton(onPressed: () {}, child: Text('Save')),
           PopupMenuButton<int>(
-            itemBuilder: (context) =>[
+            itemBuilder: (context) => [
               PopupMenuItem(
                 child: Text('Delete'),
               ),
@@ -40,15 +37,14 @@ class AddNote extends StatelessWidget {
             ),
             Expanded(
                 child: Container(
-                  decoration: BoxDecoration(),
-                  child: TextField(
-                    controller: content,
-                    maxLines: null,
-                    expands: true,
-                    decoration: InputDecoration(hintText: 'Start typing'),
-                  ),
-                )
-            ),
+              decoration: BoxDecoration(),
+              child: TextField(
+                controller: content,
+                maxLines: null,
+                expands: true,
+                decoration: InputDecoration(hintText: 'Start typing'),
+              ),
+            )),
           ],
         ),
       ),

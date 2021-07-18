@@ -40,7 +40,6 @@ class _TaskViewState extends State<TaskView> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     print('Loading');

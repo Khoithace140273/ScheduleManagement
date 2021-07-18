@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/HomePage/taskView.dart';
-import 'package:untitled/Note/addNote.dart';
 import 'package:untitled/HomePage/noteView.dart';
 import '/Drawer/navMenu.dart';
 

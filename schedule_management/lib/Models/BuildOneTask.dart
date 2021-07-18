@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'Task.dart';
+
 class BuildOneTask extends StatefulWidget {
   final Task item;
-  const BuildOneTask({Key? key, required this.item}) : super(key: key);
+  final Function() onChangeStatus;
+  const BuildOneTask(
+      {Key? key, required this.item, required this.onChangeStatus})
+      : super(key: key);
 
   @override
   _BuildOneTaskState createState() => _BuildOneTaskState();
@@ -40,7 +44,7 @@ class _BuildOneTaskState extends State<BuildOneTask> {
       ),
       onChanged: (value) {
         setState(() {
-          widget.item.done = !widget.item.done;
+          widget.onChangeStatus();
         });
       },
       controlAffinity: ListTileControlAffinity.leading,

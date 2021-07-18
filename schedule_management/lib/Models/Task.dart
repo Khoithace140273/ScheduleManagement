@@ -15,11 +15,8 @@ class Task with ChangeNotifier {
       this.lastEditedTime);
 
   factory Task.fromJson(Map<String, dynamic> json) {
-    return Task(
-        json['id'],
-        json['done'],
-        json['titleTask'],
-        json['reminderTime'],
-        json['lastEditedTime']);
+    print(json['done']);
+    return Task(json['id'], json['done'], json['titleTask'],
+        json['reminderTime'], json['lastEditedTime']);
   }
 }
