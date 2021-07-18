@@ -4,17 +4,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:motion_toast/resources/arrays.dart';
-import 'package:untitled/HomePage/homePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:motion_toast/motion_toast.dart';
-import 'package:untitled/Login/login.dart';
-import 'package:untitled/Register/components/background.dart';
-import 'package:untitled/components/already_have_an_account_acheck.dart';
-import 'package:untitled/components/input_text_field.dart';
-import 'package:untitled/components/or_divider.dart';
-import 'package:untitled/components/rounded_button.dart';
 import 'package:untitled/constants.dart';
+import 'package:untitled/page/HomePage/homePage.dart';
+import 'package:untitled/page/Login/login.dart';
+import 'package:untitled/page/Register/components/background.dart';
+import 'package:untitled/page/components/already_have_an_account_acheck.dart';
+import 'package:untitled/page/components/input_text_field.dart';
+import 'package:untitled/page/components/or_divider.dart';
+import 'package:untitled/page/components/rounded_button.dart';
 
 class bodyRegister extends StatefulWidget {
   @override

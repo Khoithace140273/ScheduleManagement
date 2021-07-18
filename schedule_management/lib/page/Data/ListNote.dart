@@ -1,4 +1,5 @@
-import 'package:untitled/Models/Note.dart';
+
+import 'package:untitled/page/Models/Note.dart';
 
 class NoteList{
   static final Notes = <Note>[
