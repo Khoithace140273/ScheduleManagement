@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/Models/Note.dart';
 import 'package:untitled/Models/SlidableNote.dart';
-import 'package:untitled/NoteAndTask/addNote.dart';
+import 'package:untitled/Note/addNote.dart';
 import 'package:untitled/Data/ListNote.dart';
 class NoteView extends StatefulWidget {
   const NoteView({Key? key}) : super(key: key);
