@@ -18,12 +18,6 @@ class ListTask {
     return parsed.map<Task>((json) => Task.fromJson(json)).toList();
   }
 
-  // addTask(List<Task> tasks)  async{
-  //   //final response = await http.get(Uri.parse("http://10.0.2.2:8080/api/task"));
-  //   Map<int,Task> map = tasks.asMap();
-
-  // }
-
   Future<dynamic> addTask(bool done, String titleTask, String reminderTime,
       String lastEditedTime) async {
     try {
@@ -47,7 +41,6 @@ class ListTask {
 
   Future<dynamic> updateTask(Task task) async {
     try {
-      print("asdasd");
       final response = await http.post(
         Uri.parse("http://localhost:8080/api/task/updatetask"),
         body: {
@@ -62,7 +55,7 @@ class ListTask {
         throw Exception('Failed to Update Task');
       }
     } catch (e) {
-      throw Exception(e);
+      throw Exception('Failed to load Task');
     }
   }
 
