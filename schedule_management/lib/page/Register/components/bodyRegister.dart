@@ -276,7 +276,7 @@ class _RegisterFormState extends State<bodyRegister> {
       };
       var jsonResponse = null;
       var response = await http
-          .post(Uri.parse("http://113.165.93.138:8080/api/user"), body: data);
+          .post(Uri.parse("http://14.237.119.17:8080/api/user"), body: data);
 
       if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
@@ -293,9 +293,6 @@ class _RegisterFormState extends State<bodyRegister> {
             Navigator.push(
                 context, MaterialPageRoute(builder: (_) => HomePage()));
           });
-/*
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomePage()), (Route<dynamic> route) => false);
-*/
         } else {
           _displayErrorToast(context);
         }

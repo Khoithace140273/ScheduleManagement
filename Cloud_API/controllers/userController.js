@@ -3,40 +3,14 @@
 const firebase = require("../db");
 const User = require("../models/userAcc");
 const firestore = firebase.firestore();
-
+var crypto = require('crypto');
 //call function
 const updateUser = fcUpdateUser();
 const checkUser = fcCheckUser();
 const addUser = fcAddUser();
 const getUserById = fcGetUserById();
 
-const getAllUser = fcGetAllUser();
-function fcGetAllUser() {
-  return async (req, res, next) => {
-    try {
-      const users = await firestore.collection("User");
-      const dataGetAllUser = await users.get();
-      const usersArray = [];
-      if (dataGetAllUser.empty) {
-        res.status(404).send("No user record found");
-      } else {
-        dataGetAllUser.forEach((doc) => {
-          const user = new User(
-            doc.id,
-            doc.data().Username,
-            doc.data().Password,
-            doc.data().Uidfacebook,
-            doc.data().Uidgoogle
-          );
-          usersArray.push(user);
-        });
-      }
-      res.send(usersArray);
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  };
-}
+
 //function
 function fcGetUserById() {
   return async (req, res, next) => {
@@ -77,8 +51,13 @@ function fcAddUser() {
       }
       usersArray.sort((a, b) => a.id - b.id);
       var a = parseInt(usersArray[usersArray.length - 1].id) + 1;
-      const dataPostUser = req.body;
       const usernameUserInput = req.body.Username;
+      const passwordUserInput = req.body.Password;
+      //Encryption password sha256 
+      const hashPassword = crypto.createHash('sha256').update(passwordUserInput.toString()).digest('base64');
+      req.body.Password = hashPassword;
+      const dataPostUser = req.body;
+
       if (usersArray.some((e) => e.userName === usernameUserInput)) {
         res.send(false);
       }
@@ -98,7 +77,6 @@ function fcCheckUser() {
       const users = await firestore.collection("User");
       const data = await users.get();
       const usersArray = [];
-      console.log("aaaa");
       if (data.empty) {
         res.status(404).send("No user record found");
       } else {
@@ -115,11 +93,9 @@ function fcCheckUser() {
       }
       const usernameUserInput = req.body.Username;
       const passwordUserInput = req.body.Password;
-      if (
-        usersArray.some(
-          (e) =>
-            e.userName === usernameUserInput && e.passWord === passwordUserInput
-        )
+      const hashPassword = crypto.createHash('sha256').update(passwordUserInput.toString()).digest('base64');
+
+      if (usersArray.some((e) =>e.userName === usernameUserInput && e.passWord === hashPassword)
       ) {
         res.send(true);
       } else res.send(false);
@@ -146,6 +122,6 @@ function fcUpdateUser() {
 module.exports = {
   addUser,
   checkUser,
-  updateUser,
-  getAllUser
+  updateUser
 };
+
