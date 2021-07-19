@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled/page/Data/ListNote.dart';
-import 'package:untitled/page/Models/Note.dart';
-import 'package:untitled/page/Models/SlidableNote.dart';
-import 'package:untitled/page/NoteAndTask/addNote.dart';
-
+import 'package:intl/intl.dart';
+import 'package:untitled/Models/Note.dart';
+import 'package:untitled/Models/NoteListBuilder.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:untitled/Models/SlidableNote.dart';
+import 'package:untitled/Note/addNote.dart';
+import 'package:untitled/Data/ListNote.dart';
 class NoteView extends StatefulWidget {
   const NoteView({Key? key}) : super(key: key);
 
@@ -13,19 +15,30 @@ class NoteView extends StatefulWidget {
 }
 
 class _NoteViewState extends State<NoteView> {
-  String noteContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
-      "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "
-      "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "
-      "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-  List <Note> items = List.of(NoteList.Notes);
+  final tilteController = new TextEditingController();
+  final contentController = new TextEditingController();
+  String get getTextContent => contentController.text;
+  String get getTextTitle => tilteController.text;
+  bool _isFilled = false;
+  String dateTimePicker = "";
+  String taskPop = "close";
+  ListNote _listNote= new ListNote();
   @override
   Widget build(BuildContext context) {
+    _isFilled = false;
     return buildNotes();
   }
-
+  void _setDisableButton(int value) {
+    if (value <= 0) {
+      setState(() => _isFilled = false);
+    } else {
+      setState(() => _isFilled = true);
+    }
+  }
   @override
   void initState() {
     super.initState();
+    _isFilled = false;
   }
 
   @override
@@ -39,8 +52,7 @@ class _NoteViewState extends State<NoteView> {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (_) => AddNote()));
+                _showModalBottomSheetAddNote(context);
           },
         ),
         body: Stack(
@@ -48,12 +60,14 @@ class _NoteViewState extends State<NoteView> {
             Container(
               alignment: Alignment.topCenter,
               child: Expanded(
-                child: ListView.separated(
-                  itemCount: items.length,
-                  separatorBuilder: (context, index) => Divider(),
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    return SlidableWidgetNote(child: buildListViewNote(item));
+                child: FutureBuilder<List<Note>>(
+                    future: _listNote.fetchNote(),
+                    builder: (context, note) {
+                      if (note.hasError) print(note.error);
+                      return note.hasData
+                      ? NoteListBuilder(notes: note.data!)
+                          : Text("No Task");
+
                   }
                 )
               ),
@@ -63,48 +77,80 @@ class _NoteViewState extends State<NoteView> {
       ),
     );
   }
+  _showModalBottomSheetAddNote(context){
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              SizedBox(
+                height: 16.0,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 100),
+                child: TextField(
+                    controller: tilteController,
+                    decoration: InputDecoration(),
+                    autofocus: true,
+                    onChanged: (text) {
+                      print(text.length);
+                    }),
 
-  Widget buildListViewNote(Note item) => ListTile(
-    title: Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      height: 100,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: Offset(0,9),
-            blurRadius: 20,
-            spreadRadius: 1,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 100),
+                child: TextField(
+                    controller: contentController,
+                    decoration: InputDecoration(),
+                    autofocus: true,
+                    onChanged: (text) {
+                      _setDisableButton(text.length);
+                      print(text.length);
+                    }),
+
+              ),
+              SizedBox(
+                width: 50,
+                child: TextButton(
+                  child: Text(
+                    "Done",
+                    style: true
+                        ? TextStyle(
+                      color: Color(0xFF5471F1),
+                    )
+                        : TextStyle(
+                      color: Color(0xFF7C7C7C),
+                    ),
+                  ),
+                  onPressed: true
+                      ? () {
+                    _listNote.addNote(getTextTitle, getTextContent,
+                        getNow());
+                    setState(() {
+                      _isFilled = true;
+                      dateTimePicker = "";
+                      tilteController.text = '';
+                      contentController.text = '';
+                      Navigator.of(context).pop();
+                    });
+                  }
+                      : null,
+                ),
+              ),
+
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(height: 3,),
-          Text(
-            item.title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 2,),
-          Text(
-            item.content,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 15,
-              color: Color(0xff7c7c7c),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
+        ));
+  }
+  String getNow() {
+    DateTime now = new DateTime.now();
+    String today = new DateFormat("dd/MM/yyyy").format(now);
+    return today;
+  }
 }

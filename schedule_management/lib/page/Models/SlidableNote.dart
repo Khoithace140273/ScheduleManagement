@@ -3,7 +3,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class SlidableWidgetNote<T> extends StatelessWidget {
   final Widget child;
-  const SlidableWidgetNote({required this.child, Key? key}) : super(key: key);
+  final Function() onTapUpdate;
+  final Function() onTapDelete;
+  const SlidableWidgetNote({required this.child, required this.onTapUpdate,
+    required this.onTapDelete, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +19,17 @@ class SlidableWidgetNote<T> extends StatelessWidget {
           caption: "Edit",
           color:  Colors.white,
           icon: Icons.edit,
-          onTap: (){},
+          onTap: (){
+            onTapUpdate();
+          },
         ),
         IconSlideAction(
           caption: "Delete",
           color:  Colors.redAccent,
           icon: Icons.delete,
-          onTap: (){},
+          onTap: (){
+            onTapDelete();
+          },
         ),
       ],
     );
