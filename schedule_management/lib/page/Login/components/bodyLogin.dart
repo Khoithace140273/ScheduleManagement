@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:motion_toast/resources/arrays.dart';
-
 import 'package:http/http.dart' as http;
-
 import 'package:untitled/constants.dart';
+import 'package:untitled/db/user_database.dart';
+import 'package:untitled/model/user.dart';
 import 'package:untitled/page/HomePage/homePage.dart';
 import 'package:untitled/page/Login/components/background.dart';
 import 'package:untitled/page/Register/register.dart';
@@ -125,12 +124,10 @@ class _LoginFormState extends State<bodyLogin> {
                 //Sign In
                 RoundedButton(
                   text: "Sign In",
-                  press: () {
+                  press: () async  {
                     if (_formKey.currentState!.validate()) {
                       // Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
-                      setState(() {
-                        _isLoading = true;
-                      });
+                      setState(() {_isLoading = true;});
                       signIn(usernameController.text, passwordController.text);
                     }
                   },
@@ -219,7 +216,7 @@ class _LoginFormState extends State<bodyLogin> {
       Map data = {"Username": username, "Password": pass};
       var jsonResponse = null;
       var response = await http.post(
-          Uri.parse("http://113.165.93.138:8080/api/loginuser"),
+          Uri.parse("http://14.237.119.17:8080/api/loginuser"),
           body: data);
       if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
@@ -227,6 +224,8 @@ class _LoginFormState extends State<bodyLogin> {
           setState(() {
             _isLoading = false;
           });
+          var userLogin = User(username:usernameController.text.toString());
+          await UserDatabase.instance.insertUser(userLogin);
           usernameController.clear();
           passwordController.clear();
           _displaySuccessToast(context);

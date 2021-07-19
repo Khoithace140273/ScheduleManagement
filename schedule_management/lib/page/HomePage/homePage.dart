@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/page/Drawer/navMenu.dart';
+import 'package:untitled/page/NavMenu/components/bodyNavMenu.dart';
 import 'package:untitled/page/HomePage/taskView.dart';
 
 import 'noteView.dart';
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        drawer: NavMenu(),
+        drawer: NavMenuBody(),
         body: TabBarView(
             children: <Widget>[
               Center(child: NoteView()),
