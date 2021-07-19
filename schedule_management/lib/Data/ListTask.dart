@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ListTask {
   Future<List<Task>> fetchTask() async {
-    final response = await http.get(Uri.parse("http://10.0.2.2:8080/api/task"));
+    final response = await http.get(Uri.parse("http://localhost:8080/api/task"));
     if (response.statusCode == 200) {
       print(response.body);
       return parseTasks(response.body);
@@ -29,7 +29,7 @@ class ListTask {
     try {
       print("asdasd");
       final response = await http.post(
-        Uri.parse("http://10.0.2.2:8080/api/task/addtask"),
+        Uri.parse("http://localhost:8080/api/task/addtask"),
         body: {
           'done': done.toString(),
           'titleTask': titleTask,
@@ -49,7 +49,7 @@ class ListTask {
     try {
       print("asdasd");
       final response = await http.post(
-        Uri.parse("http://10.0.2.2:8080/api/task/updatetask"),
+        Uri.parse("http://localhost:8080/api/task/updatetask"),
         body: {
           'id': task.id,
           'done': task.done.toString(),
@@ -70,7 +70,7 @@ class ListTask {
     try {
       print("asdasd");
       final response = await http.delete(
-        Uri.parse("http://10.0.2.2:8080/api/task/deletetask"),
+        Uri.parse("http://localhost:8080/api/task/deletetask"),
         body: {
           'id': task.id,
           'done': task.done.toString(),

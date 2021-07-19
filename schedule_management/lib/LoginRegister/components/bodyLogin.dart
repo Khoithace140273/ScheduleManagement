@@ -241,7 +241,7 @@ class _LoginFormState extends State<BodyL> {
         "Password": pass
       };
       var jsonResponse = null;
-      var response = await http.post(Uri.parse("http://113.187.112.168:8080/api/loginuser"), body: data);
+      var response = await http.post(Uri.parse("http://localhost:8080/api/loginuser"), body: data);
       if(response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
         if(jsonResponse == true) {

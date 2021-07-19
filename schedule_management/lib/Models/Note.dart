@@ -1,8 +1,15 @@
 class Note{
   String id;
-  String title;
+  String titleNote;
   String content;
   String lastEditedTime;
 
-  Note(this.id, this.title, this.content, this.lastEditedTime);
+  Note empty() {
+    return new Note('', '', '', '');
+  }
+  Note(this.id, this.titleNote, this.content, this.lastEditedTime);
+  factory Note.fromJson(Map<String, dynamic> json) {
+    print(json['done']);
+    return Note(json['idNote'], json['titleNote'],json['content'],json['dateCreate']);
+  }
 }

@@ -3,6 +3,12 @@ const { addUser,
     checkUser,
     updateUser
 } = require('../controllers/userController');
+const {
+    getAllNote,
+    addNewNote,
+    removeNote,
+    updateNote
+} = require('../controllers/noteController');
 
 const {
     getAllTask,
@@ -21,7 +27,10 @@ router.get('/task', getAllTask);
 router.post('/task/addtask', addNewTask);
 router.post('/task/updatetask', updateTask);
 router.delete('/task/deletetask', removeTask);
-
+router.get('/note', getAllNote);
+router.post('/note/addnote', addNewNote);
+router.post('/note/updatenote', updateNote);
+router.delete('/note/deletenote', removeNote);
 module.exports = {
     routes: router
 }

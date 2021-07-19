@@ -284,7 +284,7 @@ class _RegisterFormState extends State<BodyR> {
         "Uidgoogle": ""
       };
       var jsonResponse = null;
-      var response = await http.post(Uri.parse("http://113.187.112.168:8080/api/user"), body: data);
+      var response = await http.post(Uri.parse("http://localhost:8080/api/user"), body: data);
 
       if(response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
