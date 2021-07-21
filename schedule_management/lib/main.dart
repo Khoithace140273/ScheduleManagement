@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/config/httpOverride.dart';
-import 'LoginRegister/login.dart';
-import '/LoginRegister/register.dart';
+import 'package:untitled/constants.dart';
+import 'package:untitled/page/Login/login.dart';
+import 'package:untitled/page/Register/register.dart';
+import 'package:untitled/page/Welcome/welcome_screen.dart';
 
 void main() async {
   HttpOverrides.global = MyHttpOverrides();
@@ -82,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => Login()));
+                    context, MaterialPageRoute(builder: (_) => LoginScreen()));
               },
               child: Text(
                 "Sign In",
@@ -99,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => Register()));
+                    context, MaterialPageRoute(builder: (_) => RegisterScreen()));
               },
               child: Text(
                 "Sign Up",

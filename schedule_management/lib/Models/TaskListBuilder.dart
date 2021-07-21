@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:untitled/Data/ListTask.dart';
 import 'package:untitled/Models/BuildOneTask.dart';
-import 'SlidableTask.dart';
-import 'Task.dart';
+import 'package:untitled/page/Data/ListTask.dart';
+import 'package:untitled/page/Models/SlidableTask.dart';
+import 'package:untitled/page/Models/Task.dart';
 import 'package:intl/intl.dart';
 
 class TaskListBuilder extends StatefulWidget {
@@ -26,11 +26,7 @@ class _TaskListBuilderState extends State<TaskListBuilder> {
   late List<Task> searchedTasks;
   String dateTimePicker = "";
 
-  void initState() {
-    super.initState();
-    searchedTasks = <Task>[];
-    searching();
-  }
+  String taskPop = "close";
 
   void _setDisableButton(int value) {
     if (value <= 0) {
@@ -38,6 +34,13 @@ class _TaskListBuilderState extends State<TaskListBuilder> {
     } else {
       setState(() => _isFilled = true);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    searchedTasks = <Task>[];
+    searching();
   }
 
   void searching() {
@@ -143,7 +146,6 @@ class _TaskListBuilderState extends State<TaskListBuilder> {
                               taskData.lastEditedTime = getNow();
                               taskData.reminderTime = dateTimePicker;
                               _listTask.updateTask(taskData);
-                              Navigator.of(context).pop();
                             }
                           : null,
                     ),
@@ -202,80 +204,81 @@ class _TaskListBuilderState extends State<TaskListBuilder> {
     searching();
     return widget.searchStr == ""
         ? ListView.separated(
-            physics: AlwaysScrollableScrollPhysics(),
-            itemCount: widget.tasks.length,
-            separatorBuilder: (context, index) => Divider(),
-            itemBuilder: (context, index) {
-              final item = widget.tasks[index];
-              return SlidableWidgetTask(
-                  onTapUpdate: () {
-                    _showModalBottomSheetAddTask(context, item);
-                  },
-                  onTapDelete: () {
-                    deleteTask(context, item);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          offset: Offset(0, 9),
-                          blurRadius: 20,
-                          spreadRadius: 1,
-                        ),
-                      ],
+        physics: AlwaysScrollableScrollPhysics(),
+        itemCount: widget.tasks.length,
+        separatorBuilder: (context, index) => Divider(),
+        itemBuilder: (context, index) {
+          final item = widget.tasks[index];
+          return SlidableWidgetTask(
+              onTapUpdate: () {
+                _showModalBottomSheetAddTask(context, item);
+              },
+              onTapDelete: () {
+                deleteTask(context, item);
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                height: 80,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      offset: Offset(0, 9),
+                      blurRadius: 20,
+                      spreadRadius: 1,
                     ),
-                    child: BuildOneTask(
-                      item: item,
-                      onChangeStatus: () {
-                        onChangeStatus(item);
-                      },
-                    ),
-                  ));
-            })
+                  ],
+                ),
+                child: BuildOneTask(
+                  item: item,
+                  onChangeStatus: () {
+                    onChangeStatus(item);
+                  },
+                ),
+              ));
+        })
         : searchedTasks.length == 0
-            ? Text("Can not found Task")
-            : ListView.separated(
-                physics: AlwaysScrollableScrollPhysics(),
-                itemCount: searchedTasks.length,
-                separatorBuilder: (context, index) => Divider(),
-                itemBuilder: (context, index) {
-                  final searcheditem = searchedTasks[index];
+        ? Text("Can not found Task")
+        : ListView.separated(
+        physics: AlwaysScrollableScrollPhysics(),
+        itemCount: searchedTasks.length,
+        separatorBuilder: (context, index) => Divider(),
+        itemBuilder: (context, index) {
+          final searcheditem = searchedTasks[index];
 
-                  return SlidableWidgetTask(
-                      onTapUpdate: () {
-                        _showModalBottomSheetAddTask(context, searcheditem);
-                      },
-                      onTapDelete: () {
-                        deleteTask(context, searcheditem);
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        height: 80,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              offset: Offset(0, 9),
-                              blurRadius: 20,
-                              spreadRadius: 1,
-                            ),
-                          ],
-                        ),
-                        child: BuildOneTask(
-                          item: searcheditem,
-                          onChangeStatus: () {
-                            onChangeStatus(searcheditem);
-                          },
-                        ),
-                      ));
-                });
+          return SlidableWidgetTask(
+              onTapUpdate: () {
+                _showModalBottomSheetAddTask(context, searcheditem);
+              },
+              onTapDelete: () {
+                deleteTask(context, searcheditem);
+              },
+              child: Container(
+                padding:
+                EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                height: 80,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      offset: Offset(0, 9),
+                      blurRadius: 20,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+                child: BuildOneTask(
+                  item: searcheditem,
+                  onChangeStatus: () {
+                    onChangeStatus(searcheditem);
+                  },
+                ),
+              ));
+        }
+    );
   }
 }

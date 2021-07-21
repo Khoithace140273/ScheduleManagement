@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:untitled/Models/Task.dart';
 import 'package:http/http.dart' as http;
+import 'package:untitled/page/Models/Task.dart';
 
 class ListTask {
   Future<List<Task>> fetchTask() async {
-    final response = await http.get(Uri.parse("http://localhost:8080/api/task"));
+    final response = await http.get(Uri.parse("http://10.0.2.2:8080/api/task"));
     if (response.statusCode == 200) {
       print(response.body);
       return parseTasks(response.body);
@@ -17,6 +17,12 @@ class ListTask {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<Task>((json) => Task.fromJson(json)).toList();
   }
+
+  // addTask(List<Task> tasks)  async{
+  //   //final response = await http.get(Uri.parse("http://10.0.2.2:8080/api/task"));
+  //   Map<int,Task> map = tasks.asMap();
+
+  // }
 
   Future<dynamic> addTask(bool done, String titleTask, String reminderTime,
       String lastEditedTime) async {
@@ -41,8 +47,9 @@ class ListTask {
 
   Future<dynamic> updateTask(Task task) async {
     try {
+      print("asdasd");
       final response = await http.post(
-        Uri.parse("http://localhost:8080/api/task/updatetask"),
+        Uri.parse("http://10.0.2.2:8080/api/task/updatetask"),
         body: {
           'id': task.id,
           'done': task.done.toString(),
@@ -55,15 +62,14 @@ class ListTask {
         throw Exception('Failed to Update Task');
       }
     } catch (e) {
-      throw Exception('Failed to load Task');
+      throw Exception(e);
     }
   }
 
   Future<dynamic> deleteTask(Task task) async {
     try {
-      print("asdasd");
       final response = await http.delete(
-        Uri.parse("http://localhost:8080/api/task/deletetask"),
+        Uri.parse("http://10.0.2.2:8080/api/task/deletetask"),
         body: {
           'id': task.id,
           'done': task.done.toString(),

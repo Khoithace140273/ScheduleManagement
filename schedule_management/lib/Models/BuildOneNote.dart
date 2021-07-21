@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'Note.dart';
+import 'package:untitled/page/Models/Note.dart';
 
 class BuildOneNote extends StatefulWidget {
   final Note item;

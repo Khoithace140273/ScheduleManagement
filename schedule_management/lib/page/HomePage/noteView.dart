@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:untitled/Models/Note.dart';
 import 'package:untitled/Models/NoteListBuilder.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:untitled/Models/SlidableNote.dart';
-import 'package:untitled/Note/addNote.dart';
-import 'package:untitled/Data/ListNote.dart';
+import 'package:untitled/page/Data/ListNote.dart';
+import 'package:untitled/page/Models/Note.dart';
 class NoteView extends StatefulWidget {
   const NoteView({Key? key}) : super(key: key);
 
@@ -19,26 +16,17 @@ class _NoteViewState extends State<NoteView> {
   final contentController = new TextEditingController();
   String get getTextContent => contentController.text;
   String get getTextTitle => tilteController.text;
-  bool _isFilled = false;
   String dateTimePicker = "";
   String taskPop = "close";
   ListNote _listNote= new ListNote();
   @override
   Widget build(BuildContext context) {
-    _isFilled = false;
     return buildNotes();
   }
-  void _setDisableButton(int value) {
-    if (value <= 0) {
-      setState(() => _isFilled = false);
-    } else {
-      setState(() => _isFilled = true);
-    }
-  }
+
   @override
   void initState() {
     super.initState();
-    _isFilled = false;
   }
 
   @override
@@ -110,8 +98,6 @@ class _NoteViewState extends State<NoteView> {
                     decoration: InputDecoration(),
                     autofocus: true,
                     onChanged: (text) {
-                      _setDisableButton(text.length);
-                      print(text.length);
                     }),
 
               ),
@@ -120,27 +106,20 @@ class _NoteViewState extends State<NoteView> {
                 child: TextButton(
                   child: Text(
                     "Done",
-                    style: true
-                        ? TextStyle(
+                    style: TextStyle(
                       color: Color(0xFF5471F1),
-                    )
-                        : TextStyle(
-                      color: Color(0xFF7C7C7C),
                     ),
                   ),
-                  onPressed: true
-                      ? () {
+                  onPressed:() {
                     _listNote.addNote(getTextTitle, getTextContent,
                         getNow());
                     setState(() {
-                      _isFilled = true;
                       dateTimePicker = "";
                       tilteController.text = '';
                       contentController.text = '';
                       Navigator.of(context).pop();
                     });
                   }
-                      : null,
                 ),
               ),
 

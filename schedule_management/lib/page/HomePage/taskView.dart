@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:untitled/Data/ListTask.dart';
-import 'package:untitled/Models/Task.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:untitled/Models/TaskListBuilder.dart';
+import 'package:untitled/page/Data/ListTask.dart';
+import 'package:untitled/page/Models/Task.dart';
 
 class TaskView extends StatefulWidget {
   const TaskView({Key? key}) : super(key: key);
@@ -35,6 +35,13 @@ class _TaskViewState extends State<TaskView> {
     super.dispose();
   }
 
+  Future<void> refreshList() async {
+    await Future.delayed(Duration(seconds: 1));
+    setState(() {
+      tasksData = _listTask.fetchTask();
+    });
+  }
+
   void _setDisableButton(int value) {
     if (value <= 0) {
       setState(() => _isFilled = false);
@@ -43,16 +50,8 @@ class _TaskViewState extends State<TaskView> {
     }
   }
 
-  Future<void> refreshList() async {
-    await Future.delayed(Duration(seconds: 1));
-    setState(() {
-      tasksData = _listTask.fetchTask();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    print('Loading');
     return RefreshIndicator(
       onRefresh: refreshList,
       child: Stack(
@@ -120,9 +119,9 @@ class _TaskViewState extends State<TaskView> {
                             if (task.hasError) print(task.error);
                             return task.hasData
                                 ? TaskListBuilder(
-                                    tasks: task.data!,
-                                    searchStr: searchController.text,
-                                  )
+                              tasks: task.data!,
+                              searchStr: searchController.text,
+                            )
                                 : Text("No Task");
                           }),
                     ),
