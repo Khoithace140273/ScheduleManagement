@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/HomePage/taskView.dart';
-import 'package:untitled/HomePage/noteView.dart';
-import '/Drawer/navMenu.dart';
+import 'package:untitled/page/Drawer/navMenu.dart';
+import 'package:untitled/page/HomePage/noteView.dart';
+import 'package:untitled/page/HomePage/taskView.dart';
 
 class HomePage extends StatelessWidget {
   @override

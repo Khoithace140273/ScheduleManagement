@@ -4,11 +4,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:motion_toast/resources/arrays.dart';
-import 'package:untitled/HomePage/homePage.dart';
+import 'package:untitled/page/HomePage/homePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http ;
 import 'package:motion_toast/motion_toast.dart';
-import 'InputDeco_design.dart';
+import 'package:untitled/page/components/input_text_field.dart';
 
 class BodyR extends StatefulWidget {
   @override

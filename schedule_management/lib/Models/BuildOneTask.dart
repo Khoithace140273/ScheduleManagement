@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'Task.dart';
+import 'package:untitled/page/Models/Task.dart';
 
 class BuildOneTask extends StatefulWidget {
   final Task item;

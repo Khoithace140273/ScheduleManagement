@@ -1,6 +1,7 @@
-import 'package:untitled/Models/Note.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:untitled/page/Models/Note.dart';
 class ListNote{
   Future<List<Note>> fetchNote() async {
     final response = await http.get(Uri.parse("http://localhost:8080/api/note"));

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:untitled/Data/ListNote.dart';
 import 'package:untitled/Models/BuildOneNote.dart';
-import 'SlidableNote.dart';
-import 'Note.dart';
+import 'package:untitled/page/Data/ListNote.dart';
+import 'package:untitled/page/Models/Note.dart';
 import 'package:intl/intl.dart';
+import 'package:untitled/page/Models/SlidableNote.dart';
 
 class NoteListBuilder extends StatefulWidget {
   final List<Note> notes;
@@ -16,23 +15,14 @@ class NoteListBuilder extends StatefulWidget {
 }
 
 class _NoteListBuilderState extends State<NoteListBuilder> {
-  final tilteController = new TextEditingController();
+  final titleController = new TextEditingController();
   final contentController = new TextEditingController();
-  bool _isFilled = false;
 
   ListNote _listNote = new ListNote();
 
   String dateTimePicker = "";
 
   String taskPop = "close";
-
-  void _setDisableButton(int value) {
-    if (value <= 0) {
-      setState(() => _isFilled = false);
-    } else {
-      setState(() => _isFilled = true);
-    }
-  }
 
   String getNow() {
     DateTime now = new DateTime.now();
@@ -47,13 +37,13 @@ class _NoteListBuilderState extends State<NoteListBuilder> {
 
   void deleteNote(context, Note taskData) {
     // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Cancel"),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text("Continue"),
       onPressed: () {
         _listNote.deleteNote(taskData);
@@ -110,7 +100,7 @@ class _NoteListBuilderState extends State<NoteListBuilder> {
         });
   }
   _showModalBottomSheetAddNote(context, Note NoteData){
-    tilteController.text=NoteData.titleNote;
+    titleController.text=NoteData.titleNote;
     contentController.text=NoteData.content;
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -129,7 +119,7 @@ class _NoteListBuilderState extends State<NoteListBuilder> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 100),
                 child: TextField(
-                    controller: tilteController,
+                    controller: titleController,
                     decoration: InputDecoration(),
                     autofocus: true,
                     onChanged: (text) {
@@ -144,8 +134,6 @@ class _NoteListBuilderState extends State<NoteListBuilder> {
                     decoration: InputDecoration(),
                     autofocus: true,
                     onChanged: (text) {
-                      _setDisableButton(text.length);
-                      print(text.length);
                     }),
 
               ),
@@ -154,22 +142,16 @@ class _NoteListBuilderState extends State<NoteListBuilder> {
                 child: TextButton(
                   child: Text(
                     "Done",
-                    style: true
-                        ? TextStyle(
+                    style: TextStyle(
                       color: Color(0xFF5471F1),
                     )
-                        : TextStyle(
-                      color: Color(0xFF7C7C7C),
-                    ),
                   ),
-                  onPressed: true
-                      ? () {
-                    NoteData.titleNote = tilteController.text;
+                  onPressed: () {
+                    NoteData.titleNote = titleController.text;
                     NoteData.content = contentController.text;
                     NoteData.lastEditedTime = getNow();
                     _listNote.updateNote(NoteData);
                   }
-                  : null,
                 ),
               ),
 

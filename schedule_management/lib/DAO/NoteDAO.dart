@@ -1,4 +1,4 @@
-import 'package:untitled/Models/Note.dart';
+import 'package:untitled/page/Models/Note.dart';
 
 class NoteDAO {
   late String _errorMsg;
